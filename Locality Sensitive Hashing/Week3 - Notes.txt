@@ -1,0 +1,44 @@
+Objectives/Applications:
+Machine translations: Given a word in English dictionary, say "cat", translate it to the French word "chat"
+
+Learnings:
+1. what is "transforming" a vector?
+2. implement K nearest neighbors to search similar items (words)
+3. hash tables - assign word vectors into subsets
+4. divide vector space into regions
+5. implement locality sensitive hashing to perform KNN efficiently
+
+For #3,4,5:
+
+Hash tables are data structures that allow indexing data to make lookup tasks more efficient. 
+
+imagine 10 buckets (hash values) to which we want to assign 6 numbers 10,14,19,54,59,100 (word vectors)
+
+if we use a logic: number % 2 then the numbers will be assigned these hash values/buckets
+10,100 : bucket 0 | 54,14: bucket 4 | 59,19: bucket 9
+
+notice how far the numbers are: we would want numbers to be closer w.r.t their magnitue: e.g. 10,14,19 should be near to each other for faster computing/locating
+
+likewise, what if we could divide the vector space into regions so that the similar vectors are grouped into the same region? not a bad idea! 
+but how to do this? using normal vectors to determine which side of the plane a vector falls.
+e.g.: normal vector P = [1,1] & vector v = [-6,2]
+hash value = dot(P,v.T) = P.V = -6*1+2*1 = -4 | direction = np.sign(-4) = -1 --> -1 suggests the vector v exists on to the opposide direction of normal vector P.
+similarly, for other vector, if the sign is +1 then that vector would exist on to the same direction of normal vector P.
+if sign = 0 say for vector a = [-5,5] = 0 then vector a would exist ON the normal vector P.
+
+locality sensitive hashing:
+now, imagine a vector space -> divide that vector space into multiple planes to create several regions. regions are created by intersections of these planes. 
+a vector will fall on to either side of a plane.
+we gotta compute a single hash value of a given vector using multiple planes:
+
+the dot products are of vector v and planes P1,P2,P3:
+
+P1.v = 3, sign1 = +1, h1 = 1 (if sign >= 0 hash=1 else hash=0)
+P2.v = 5, sign2 = +1, h2 = 1
+P3.v = -2, sign3 = -1, h3 = 0
+
+hash value = 2 to power 0 x h1 + 2 to power 1 x h2 + 2 to power 2 x h3 = 1x1 + 2x1 + 4x0 = combined hash value = 3 --> now we can assign vector v to this bucket/region!
+
+Lab session: refer the lasb session on defining the hash value for a given vector using single, multiple and random planes. The intersections of planes define the regions.
+The planes represent the hash function using which we compute hash value for a given input vector w.r.t all planes.
+
