@@ -1,5 +1,9 @@
 Objectives/Applications:
-Machine translations: Given a word in English dictionary, say "cat", translate it to the French word "chat"
+a. Machine translations: Given a word in English dictionary, say "cat", translate it to the French word "chat"
+b. Document searching: given a document say "what is the return policy?", how best to find the nearest meaningful documents such as "what is the refund amount upon cancellation?" in 
+a large collection of documents (read large vector space!)
+This is possible using locality sensitive hashing & K-nearest neighbors by randomly dividing the vector space into the regions using planes and finding the subset of the entire space
+using hash functions
 
 Learnings:
 1. what is "transforming" a vector?

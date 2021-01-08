@@ -1,0 +1,89 @@
+
+
+
+Assignment: Machine Translation & Locality Sensitive Hashing
+
+1. get_matrices(): returns X & Y matrices for english & french word embeddings
+
+A. Translation using linear transformation of english embeddings:
+
+translation problem description (Loss function L): Find transformation matrix R such that the loss is minimum: ||X*R-Y|| is minimum
+
+2. compute_loss(X, Y, R): compute the loss | returns the Loss value of loss function
+
+	Loss = square(||X*R-Y||) divided by # of observations --> we want to compute loss per word translation
+
+3. compute_gradient(X,Y,R): Computing the gradient of loss in respect to transform matrix R
+
+	returns the gradient matrix : gradient of the loss function L w.r.t X,Y,R 
+	the gradient matrix encodes how much a small change in R affect the change in the loss function -> gives us the direction in which we should decrease R (in a step size) to minimize loss
+	
+	𝑑/𝑑𝑅 𝐿(𝑋,𝑌,𝑅) = 𝑑/𝑑𝑅 (1/𝑚‖𝑋𝑅−𝑌‖2𝐹) = 2/𝑚 𝑋𝑇(𝑋𝑅−𝑌)
+	F = Frobenius norm
+	XT = Transpose of matrix X
+
+4. align_embeddings(X,Y,training_steps=100,learning_rate=0.0003)
+	function iteratively calling compute_loss & compute_gradient for a passed # of steps/iterations & alpha, the learning_rate
+	
+	adjusting R in each iteration:
+	R_new = R_old - alpha*gradient --(gradient is returned from compute_gradient() function)
+
+
+B. Testing the translation
+
+1. nearest_neighbor(v, candidates, k=1): finds the K-nearest neighbours french word embedding in a set of candidates
+   returns the closest K-NN using cosine similarity. cos(u,v) = u.v / ||u||.||v||
+  
+2. test_vocabulary(X,Y,R): 
+	2.1 function transfors the X matrix using transformation matrix R
+	2.2 using nearest_neighbor() function gets the nearest french word embedding using cosine similarity
+	2.3 computes accuracy by checking against the Y french word matrix
+
+C. Locality Sensitive Hashing & Document Search
+
+In this part of the assignment, you will implement a more efficient version of k-nearest neighbors using locality sensitive hashing. You will then apply this to document search.
+
+Objective: Document search: Given a tweet, find the similar tweet in the corpus of 10,000 tweets.
+
+1. Instead of finding the entire corpus of 10k tweet, we would use LSH to divide the vector space into buckets/regions and assign a hash value & table to a tweet.
+
+	1.1 Each plane divides the space into 2 parts
+	1.2 suppose we want to allocate 16 tweets per bucket - then 10,000/16 = 625 buckets are needed
+	1.3 log base 2 (625) = n | solving this - we get 9.25 ~ approximating it to 10 | hence we would need 10 planes to divide the vector space into 625 regions
+		IMPORTANT NOTE: since, power(2,10) = 1024 - we are actually creating 1024 buckets/regions! i.e. more than we need
+
+2. Unique Hash number/value for a vector
+	2.1 for each vector/tweet, we need a unique hash number to assign it to a hash bucket
+	2.2 to generate a unique hash value of a vector: 
+		2.2.1 take a dot product of a vector with EACH plane 
+		2.2.2 take out the sign part of the multiplcation results : e.g. [1,-1,1,1,-1,-1,1,1,1,-1] -- a (1,10) vector
+		2.2.3 encode based on sign: when a vector pointing to the opposite side of plane (-1) assign 0, else if vector falls on the same side that of the plane assign 1
+			  encode = [1,0,1,1,0,0,1,1,1,0]
+		2.2.4 hash value: sum(power(2,i) * encode[i])
+		
+3. Hash buckets:
+	
+	3.1 Hash values are Hash buckets. In above example, total power(2,10) = 1024 buckets are created
+	3.2 for each vector, hash value is computed and is assigned that hash bucket
+		e.g.: vector 0's hash value is 728 hence vector 0 is assigned to bucket 728
+
+4. document search using KNN:
+	4.1 we would randomly divide the vector space using 10 hyperplanes. however, we would repeat this for 25 times as there might be multiple better ways to divide a vector space
+	4.2 let's call this a "Universe". Universe has 25 sets of 10 planes
+	4.3 for each of the Universe, find the nearest neighbor for a document
+		4.3.1 using a simple cosine of the word vectors -> find the K-nearest neighbors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
