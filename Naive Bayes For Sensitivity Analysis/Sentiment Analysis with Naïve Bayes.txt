@@ -1,0 +1,106 @@
+Learning Objectives:
+Error analysis
+Naive Bayes inference
+Log likelihood
+Laplacian smoothing
+conditional probabilities
+Bayes rule
+Sentiment analysis
+Vocabulary creation
+Supervised learning
+
+
+-------------------------------------------------------------------
+Bayes Rule: Conditional Probabilities
+
+
+P(X|Y) = P(Y|X) * P(X)/P(Y)
+
+Derivation: 
+
+P(Positive|"happy") = P(Positive ∩ "happy") / P("happy") ...Equation A
+
+P("happy"|Positive) = P("happy" ∩ Positive) / P(Positive) ...Equation B
+
+Substituting P("happy" ∩ Positive) in Equation A: Note that the intersections P("happy" ∩ Positive) & P(Positive ∩ "happy") are the same.
+
+P(Positive|"happy") = P("happy"|Positive)*P(Positive)/P("happy")
+
+-------------------------------------------------------------------
+
+
+Suppose that in your dataset, 25% of the positive tweets contain the word ‘happy’. 
+You also know that a total of 13% of the tweets in your dataset contain the word 'happy', 
+and that 40% of the total number of tweets are positive. You observe the tweet: ''happy to learn NLP'. 
+What is the probability that this tweet is positive?
+
+
+P(Positive|"happy") = P("happy"|Positive) * P(Positive)/P("happy") = 0.25 * 0.4/0.13 = 0.77
+
+
+----------------------------------------------------------------------
+
+Naive Bayes:
+
+likelihood score formula: for each word, calcualte the ratio in positive and negative class
+
+For all words in the tweet, calcualte the likelihood score: e.g.: I am happy today;I am learning.
+
+m
+π   P(word_i|Positive)/P(word_i|Negative) ... where π is a pi notation (product notation -- repeated multiplication)
+i=1
+
+Probabilities of each word in each class is given as: word "I" probability in Positive as well as Negative tweet is 0.20
+
+I = 0.20/0.20 , am = 0.20/0.20 , happy = 0.14/0.10, today = not found in the vocabulary so no probability, learning = 0.10/0.10
+     I			am			happy		I			am			learning
+(0.20/0.20)*(0.20/0.20)*(0.14/0.10)*(0.20/0.20)*(0.20/0.20)*(0.10/0.10) == 0.14/0.10 (all other terms are cancelled out) = 1.4 > 1 hence it is a Positive tweet!
+
+
+NOTICE: that the word "today" is an unseen word and during the vocabulary building in training phase we did not encounter this word in the entire corpus. hence it is ignored.
+
+----------------------------------------------------------------------
+
+Laplacian smoothing technique: bettering the Naive Bayes formula!!!
+
+technique to use to avoid your probabilities being zero. 
+e.g.: what if a word, say "because", appears only in Positive corpora. The P("because"|Negative) will be 0 which will throw off the likelihood score!
+To avoid this we would add +1 in the numerator & V (# number of words in the vocabulary)
+
+In the above formula, the probability of a word appearing in a class is replaced with this formula:
+
+P(word|class) = (P(word|class)+1) / (sum of frequencies of all words in class + V)  ..... V is # number of words in the vocabulary
+e.g.: "happy" in Positive class
+
+P("happy"|Positive) = (0.20 + 1) / (13 + 8) = 0.057 .. 13 is sum of frequencies of all words appearing in Positive class & 8 is unique words in vocabulary
+
+----------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Decision threshold: The likelihood score will range from 0 to +♾
+
+if the score is between 0 to 1 : classify the tweet as Negative
+if the score is > 1 : classify the tweet as Positive ------------> score of 1 is the decision threshold!!!
+
+Note the scale is not uniform. For positive tweets, the scale goes upto +♾
+
+Also, during the product/multiplication operation of the small ratios -> we might encounter numerical "underflow" 
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Log likelihood score:
+
+To avoid the problem of numerical underflow & to have a normalized score scale, let's take the natural log of the ratios
+
+log likelihood score = Σ log P(word|Positive)/P(word|Negative) ---- sum of log of probability ratios of the words in each class
+
+The score scale will range from -♾ to +♾ | scores greater than 0 are positive tweets & lesser than 0 are negative tweets
+
+
+
+
+
+
+
+
+
