@@ -116,7 +116,7 @@ Tokenize sentences
 e.g.: the freq for stemmed word "happi" might look like this:
 word	Positive	Negative
 happi	 2				1
-4) Get P(w | pos), P(w | neg) P(w|pos),P(w|neg) --> using Laplacian smoothing technique to avoid probabilities being 0
+4) Get π P(word | pos)/P(word | neg) --> using Laplacian smoothing technique to avoid probabilities being 0
 You can use the table above to compute the probabilities. 
 5) Get λ(w) --> calcualte log likelihood score
   λ(w)=log P(w|neg)/P(w|pos)
