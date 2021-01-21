@@ -1,0 +1,45 @@
+Learning Objectives
+----------------------
+Word probabilities
+Dynamic programming
+Minimum edit distance --> ***Application in NLP***: it could be used in spelling correction, document similarity, and machine translation.
+Autocorrect (Original paper: https://norvig.com/spell-correct.html)
+
+
+Building a model algorithm:
+1. Identify a misspelled word --> if the typed word does not include in the dictionary flag those as incorrect words
+2. Find strings/words n-edit distance away --> find all possible words by editing n-edit
+	2.1 Basic form of Minimum edit distance algorithm:
+		. Insert a letter n-edit away to produce another word: e.g. to --> top | to --> two
+		. Replace a letter n-edit away e.g. jaw --> jar
+		. delete (remove a letter): e.g.: hat --> ha, at
+		. switch letters next to each other: eta --> eat or tea
+3. Filter candidates
+	out of all edited words, filter out words which are not found in the dictionary i.e. not valid English words
+
+4. Calculate word probabilities --> to find the most likelihood of words
+
+	4.1 build the word frequency table
+	4.2 this probability table will be used to select the most probable word for replacement
+	e.g. word "and" is the most likely word than "ant" in a document
+
+**********************The Levenshtein Distance Algotihm (Minimum Edit Distance Algotihm)************************************************
+
+"Minimum" edit distance algorithm: the cost of editing a string to produce another string should be as low as possible
+
+using Dynamic Programming which is a tabular way to solve minimum edit distance problem.
+	
+	    a				n
+  - - - - - - - - - - - - - - - - - -
+a |replace cost   |		delete cost |
+t |insert cost    |		[i,j]       |
+  - - - - - - - - - - - - - - - - - -
+  
+******Take minimum of i-1,j OR i,j-1 OR i-1,j-1 to compute the distance for the cell [i,j]********
+ 
+D[i,j]= Minimum of {D[i-1,j] + delete_cost | to convert source string to 
+					D[i,j-1] + insert_cost
+					D[i-1,j-1] + { replace_cost: if source[i] <> target[j]
+								   0			: if source[i] == target[j]
+				    }
+			
