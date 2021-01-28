@@ -1,0 +1,75 @@
+Parts of Speech
+
+Objectives:
+part of speech tagging
+Markov Chains
+
+
+
+***********************
+part of speech tagging:
+***********************
+
+POS tags: Noun, Pronoun, Verb, Adverb, Adjective, Preposition, Conjuction, Participle, 
+
+tag the word of speech per the lexical norms of the English language.
+
+adverb	adverb	verb	noun
+why 	not 	learn 	something?
+
+***********************
+Markov Chains: 
+***********************
+
+visualize a directed graph. each state represents a parts of speech. the transition from a state (a tag) to another state (next word/tag in the sentence) is the probability.
+
+why not learn ... : in this example the word learn is a verb. the probability of the next "event" or a word being a noun in the sentence is higher as usually a verb is followed by a noun.
+
+
+Used in part of speech tagging & hence can be used for speech recognition.
+
+what's Markov chains? 
+They're a type of ***stochastic model*** that describes a sequence of possible events. To get the probability for each event, it needs only the states of the previous events. 
+The word stochastic just means random or randomness. So a stochastic model incorporates and models processes does have a random component to them. 
+A Markov chain can be depicted as a directed graph.
+
+***The Markov property helps keep the model simple by saying all you need to determine the next state is the current states. It doesn't need information from any of the previous state
+Going back to the analogy of whether water is in solid, liquid, or gas states. If you look at a cup of water that is sitting outside, the current states of the water is a liquid state. 
+When modeling the probability that the water in the cup will transition into the gas states, you don't need to know the previous history of the water. 
+Whether it's previously came from ice cubes or whether it's previously came from rain clouds
+
+
+important words:
+transition probabilities
+transition matrix (of size n+1,n where n=parts of speech) showing the transition probabilities between each possible pair of states (the states are parts of speech in this case)
+
+why n+1?: we need initial probability to begin with.
+
+			NN(Noun)	(VB)Verb	Others(all other parts of speech)
+Noun		0.2			0.2			0.6									sum(transition probabilities)=1
+Verb		0.4			0.3			0.3									sum(transition probabilities)=1
+O			0.2			0.3			0.5									sum(transition probabilities)=1
+
+
+
+	
+****************************
+Hidden Markov Chains model: why "hidden"? from machines perspective the states i.e. parts of speech are not known. e.g. machine does not know that the word "learn" is a verb.
+****************************
+
+This model has:
+1. a transition matrix showing transition probabilities between the parts of speech.
+
+2. Emission Matrix: a n,V matrix : n=parts of speech (states) & V = words in the corpus
+The emission matrix represents the probabilities for the transition of your n hidden states representing your parts of speech tags to the V words in your corpus
+
+			going		to		eat		laugh		happy	.... n words in the entire corpus
+Noun		0.2			0.2		0.4		0.1			0.1		....   sum(transition probabilities of this sentence)=1.0
+Verb
+O
+
+
+
+
+
+
