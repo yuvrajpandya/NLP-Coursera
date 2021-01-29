@@ -43,9 +43,12 @@ important words:
 transition probabilities
 transition matrix (of size n+1,n where n=parts of speech) showing the transition probabilities between each possible pair of states (the states are parts of speech in this case)
 
-why n+1?: we need initial probability to begin with.
+why n+1?: we need initial probability to begin with. 𝛑 : sentence starting token. sentence starting with POS tags.
 
-			NN(Noun)	(VB)Verb	Others(all other parts of speech)
+
+
+			NN(Noun)	(VB)Verb	Others(all other parts of speech) ---> current state/word
+𝛑 			0.6			0			0.4
 Noun		0.2			0.2			0.6									sum(transition probabilities)=1
 Verb		0.4			0.3			0.3									sum(transition probabilities)=1
 O			0.2			0.3			0.5									sum(transition probabilities)=1
@@ -56,6 +59,7 @@ O			0.2			0.3			0.5									sum(transition probabilities)=1
 ****************************
 Hidden Markov Chains model: why "hidden"? from machines perspective the states i.e. parts of speech are not known. e.g. machine does not know that the word "learn" is a verb.
 ****************************
+Objective: to find most probable next POS tag or most probable the next word in sequence.
 
 This model has:
 1. a transition matrix showing transition probabilities between the parts of speech.
@@ -67,6 +71,22 @@ The emission matrix represents the probabilities for the transition of your n hi
 Noun		0.2			0.2		0.4		0.1			0.1		....   sum(transition probabilities of this sentence)=1.0
 Verb
 O
+
+
+********************
+Viterbi algorithm: What if you're given a sentence, like "why not learn something?" 
+				   What is the most likely sequence of parts of speech tags given the sentence in your model? 
+				   The sequence can be computed using the Viterbi algorithm.
+********************
+
+The Viterbi is a graph algorithm which would utilize the Hidden Markov Model (transition & emission matrices) to find the sequence of POS tags/or hidden states.
+
+The algorithm can be split into three main steps: 
+1. the initialization step
+2. the forward pass
+3. the backward pass
+
+
 
 
 
