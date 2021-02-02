@@ -58,6 +58,8 @@ O			0.2			0.3			0.5									sum(transition probabilities)=1
 	
 ****************************
 Hidden Markov Chains model: why "hidden"? from machines perspective the states i.e. parts of speech are not known. e.g. machine does not know that the word "learn" is a verb.
+Most commonly used algorithm in NLP & foundation behind many techniques used in deep learning.
+In addition to parts-of-speech tagging, HMM is used in speech recognition, speech synthesis, etc. 
 ****************************
 Objective: to find most probable next POS tag or most probable the next word in sequence.
 
@@ -93,3 +95,5 @@ The algorithm can be split into three main steps:
 
 
 
+get_word_tag(line, vocab)
+Docstring: <no docstring>
