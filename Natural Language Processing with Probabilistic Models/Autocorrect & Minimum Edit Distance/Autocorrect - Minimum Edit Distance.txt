@@ -2,7 +2,7 @@ Learning Objectives
 ----------------------
 Word probabilities
 Dynamic programming
-Minimum edit distance --> ***Application in NLP***: it could be used in spelling correction, document similarity, and machine translation.
+Minimum edit distance --> ***Application in NLP***: it could be used in spelling correction, document similarity, machine translation & DNA sequencing.
 Autocorrect (Original paper: https://norvig.com/spell-correct.html)
 
 

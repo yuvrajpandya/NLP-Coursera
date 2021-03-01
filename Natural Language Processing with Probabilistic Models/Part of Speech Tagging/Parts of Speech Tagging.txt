@@ -7,7 +7,7 @@ Markov Chains
 
 
 ***********************
-part of speech tagging:
+part of speech tagging: applications: speech recognition, detecting named entity (the Effile Tower, Paris, etc.), co-reference 
 ***********************
 
 POS tags: Noun, Pronoun, Verb, Adverb, Adjective, Preposition, Conjuction, Participle, 
@@ -25,6 +25,7 @@ visualize a directed graph. each state represents a parts of speech. the transit
 
 why not learn ... : in this example the word learn is a verb. the probability of the next "event" or a word being a noun in the sentence is higher as usually a verb is followed by a noun.
 
+***markov property: it states that all you need to determine the next state is the current state. it simplifies the model. it doesn't need information from previous states
 
 Used in part of speech tagging & hence can be used for speech recognition.
 
@@ -55,12 +56,18 @@ O			0.2			0.3			0.5									sum(transition probabilities)=1
 
 
 
-	
-****************************
+********************************************************************************************************************************************
 Hidden Markov Chains model: why "hidden"? from machines perspective the states i.e. parts of speech are not known. e.g. machine does not know that the word "learn" is a verb.
 Most commonly used algorithm in NLP & foundation behind many techniques used in deep learning.
 In addition to parts-of-speech tagging, HMM is used in speech recognition, speech synthesis, etc. 
-****************************
+
+
+A hidden Markov model (HMM) is a statistical model that can be used to describe the evolution of observable events that depend on internal factors, which are not directly observable. 
+We call the observed event a `symbol' and the invisible factor underlying the observation a `state'. 
+An HMM consists of two stochastic processes, namely, an invisible process of hidden states and a visible process of observable symbols. 
+The hidden states form a Markov chain, and the probability distribution of the observed symbol depends on the underlying state. 
+For this reason, an HMM is also called a DOUBLY-EMBEDDED STOCHASTIC PROCESS.
+********************************************************************************************************************************************
 Objective: to find most probable next POS tag or most probable the next word in sequence.
 
 This model has:
@@ -90,10 +97,3 @@ The algorithm can be split into three main steps:
 
 
 
-
-
-
-
-
-get_word_tag(line, vocab)
-Docstring: <no docstring>

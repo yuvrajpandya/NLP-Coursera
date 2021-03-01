@@ -1,0 +1,113 @@
+Learning Objectives:
+
+Conditional probabilities
+Text pre-processing
+Language modeling
+Perplexity
+K-smoothing
+N-grams
+Backoff
+Tokenization
+
+
+what if we can compute the probability of a whole sentence! that's autocomplete magic like an experience when composing a mail.
+the simple logic is to train an N-gram model based on as large corpora as possible so that it learns the probabilities of a sequence of words. 
+
+Week 1:
+- Process the corpus to N-gram Language Model (training the model)
+- Handle Out Of Vocabulary (OOV) problem
+
+
+******N-grams & their probabilities (i.e. probability of a word appearing in a sequence)
+
+N-gram: An N-gram is a sequence of words
+
+e.g.: "I am happy because I am learning" --> total words in this corpus = m = 7 words
+
+Unigrams: {I, am, happy, learning, because}
+
+Bigrams: {I am, am happy, happy because, because I, am learning}
+
+
+Probability of Unigram: e.g. what is the probability of a word appearing "I"?
+-----------------------
+					
+count("I")/m = 2/7  formula: c(w)/m
+
+Probability of Bigrams: e.g. what is the probability of a word appearing "am" after "I"?
+-----------------------
+
+Using the conditional probability concept:
+P("am"|"I") = count("I am") / count("I") = 2/2 = 1
+
+P("happy"|"I") = count("I happy")/count("I") = 0/2 = 0 ---> smoothing is required!
+
+P("learning"|"am") = count("am learning")/count("am") = 1/2 
+
+Generalizing the formula: P(y|x) = c(x y)/c(x)
+
+
+Probability of Trigram:
+-----------------------
+P(happy|I am) = count(I am happy)/count(I am) = 1/2
+
+Generalizing: P(w3 | w(1 to 2)) = c(w(1 to 2) w3)/c(w(1 to 2)) --> w(1 to 2) is read as word subscript 1 to superscript 2
+
+c(w(1 to 2) w3) --> can be rewritten as c(w1 w2 w3)
+
+
+************************
+Probability of N-grams:
+
+P(wn | w(1 to N-1)) = c(w(1 to N-1) wn)/c(w(1 to N-1)) --> where wn is nth word , w(1 to N-1) is words 1 to N-1 in the sequence
+
+
+c(w(1 to N-1) wn) --> can be rewritten as c(w(1 to n)) OR c(w1 w2 w3 ... wn)
+
+***********************
+
+
+Probability of a sequence:
+
+given a sentence, what is its probability?
+
+P(the teacher drinks tea) = ?
+
+Using conditional probability & chain rule:
+
+A(B|A) = P(A B)/P(A) => rewrite this to get P(A B) = P(A) * P(B|A)
+
+chain rule:
+P(A,B,C,D) = P(A)*P(B|A)*P(C|A B)*P(D|A B C)
+
+based on this chain rule:
+
+P(the teacher drinks tea) = P(the) * P(teacher|the) * P(drinks|the teacher) * P(tea|the teacher drinks)  ---> awesome! we just computed the probability of this sentence!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
