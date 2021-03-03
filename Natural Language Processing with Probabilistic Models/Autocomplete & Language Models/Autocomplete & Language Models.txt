@@ -18,7 +18,9 @@ Week 1:
 - Handle Out Of Vocabulary (OOV) problem
 
 
-******N-grams & their probabilities (i.e. probability of a word appearing in a sequence)
+******N-grams & their probabilities : finding the probability of a sequence of words e.g.: "I am happy because I am learning"
+
+by using the probability of N-gram, we can compute the probability of a whole sentence!
 
 N-gram: An N-gram is a sequence of words
 
