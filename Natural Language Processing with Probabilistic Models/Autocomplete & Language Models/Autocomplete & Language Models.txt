@@ -3,7 +3,7 @@ Learning Objectives:
 Conditional probabilities
 Text pre-processing
 Language modeling
-Perplexity
+Perplexity metrics: for Language models evaluation
 K-smoothing
 N-grams
 Backoff
@@ -32,7 +32,7 @@ Bigrams: {I am, am happy, happy because, because I, am learning}
 Probability of Unigram: e.g. what is the probability of a word appearing "I"?
 -----------------------
 					
-count("I")/m = 2/7  formula: c(w)/m
+count("I")/m = 2/7  formula: P(w) = c(w)/m ... where m is word, m is size of the corpus
 
 Probability of Bigrams: e.g. what is the probability of a word appearing "am" after "I"?
 -----------------------
@@ -75,7 +75,7 @@ P(the teacher drinks tea) = ?
 
 Using conditional probability & chain rule:
 
-A(B|A) = P(A B)/P(A) => rewrite this to get P(A B) = P(A) * P(B|A)
+P(B|A) = P(A B)/P(A) => rewrite this to get P(A B) = P(A) * P(B|A) ... P(A,B) is a joint probability
 
 chain rule:
 P(A,B,C,D) = P(A)*P(B|A)*P(C|A B)*P(D|A B C)
@@ -84,7 +84,15 @@ based on this chain rule:
 
 P(the teacher drinks tea) = P(the) * P(teacher|the) * P(drinks|the teacher) * P(tea|the teacher drinks)  ---> awesome! we just computed the probability of this sentence!
 
+Problem: but the training corpus never contains the exact sequence. e.g. "the teacher drinks" sequence might not be in the training corpus as it is long & might not match with 
+what the user is typing. i.e. c(the teacher drinks) would likely be 0 in above case!
+Solution: Markov assumption! Based on a Markov assumption that only last few words matter to predict the probability of the next word, we can apply
+the Markov approximation using Bigram.
 
+P(the teacher drinks tea) = P(the) * P(teacher|the) * P(drinks|teacher) * P(tea|drinks) ---> only the previous word is considered!
+						     n
+			P(w1 to n)    = II P(wi|wi-1) ...product of all conditional probabilities of current & previous word
+						    i=1
 
 
 
