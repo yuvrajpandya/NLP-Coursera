@@ -4,6 +4,7 @@ Conditional probabilities
 Text pre-processing
 Language modeling
 Perplexity metrics: for Language models evaluation
+Out of Vocabulary (OOV) words
 K-smoothing
 N-grams
 Backoff
@@ -98,6 +99,55 @@ P(the teacher drinks tea) = P(the) * P(teacher|the) * P(drinks|teacher) * P(tea|
 
 
 
+******Evaluation Metric of a Language Model (LM) : Perplexity ***********************
+
+Perplexity: lower the perplexity better the language model. 
+an evaluation metric to test how well the language model generates the text which sounds natural & not look like a machine generated text. 
+
+Formula: 
+
+	m
+PP(W) = || P(wi|wi-1) raised to (-1/m)
+	i=1
+
+log perplexity to take care of numeric underflows:
+
+logPP(W) = summation(log(P(wi|wi-1))) * (-1/m)
+
+log to the base 2 is used.
+
+Example:
+
+Given the logarithm of these conditional probabilities:
+
+log(P(Mary|<s>))=-2     
+log(P(</s>|cats))=-1
+log(P(likes|Mary)) =-10
+log(P(cats|likes))=-100
+
+Assuming our test set is W=“<s> Mary likes cats </s>”, what is the model’s perplexity?
+
+logPP(W) = (log(P(Mary|<s>)) + log(P(likes|Mary)) + log(P(cat|likes))) + log(P(</s>|cats)) * -1/m
+
+where m = number of words in the test set including </s> but not <s> = 4
+      W = sentences in the test set
+
+
+(-2 + (-10) + (-100)) + (-1)= (-113)*(-1/4)
+
+
+
+
+**********Out Of Vocabulary (OOV) problem***********
+
+how to tackle words not trained/seen by the Language Model? these words are called OOV words.
+These words can be replaced with the token "UNK" (Unknown).
+
+Approach to train model for OOV:
+1. Min frequency word: include only those words which appear at least twice (or whatever frequency you decide). 
+Words appearing only once will be replaced with UNK thereby minimizing the vocab size to the imp onces
+
+2. |V| : size of the vocab -> set the size of the vocab to say 10000 words. and words having more frequencies should be added to the vocab first.
 
 
 
