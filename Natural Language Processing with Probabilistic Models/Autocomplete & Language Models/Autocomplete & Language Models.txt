@@ -1,14 +1,14 @@
 Learning Objectives:
 
+N-grams
 Conditional probabilities
 Text pre-processing
 Language modeling
 Perplexity metrics: for Language models evaluation
 Out of Vocabulary (OOV) words
 K-smoothing
-N-grams
 Backoff
-Tokenization
+
 
 
 what if we can compute the probability of a whole sentence! that's autocomplete magic like an experience when composing a mail.
@@ -151,7 +151,27 @@ Words appearing only once will be replaced with UNK thereby minimizing the vocab
 
 
 
+***********K-smoothing & Backoff******************
 
+Add-k smoothing (similar to the Laplacian smoothing)
+
+formula:
+
+P(wi-1|wi) = count(wi-1,wi) + k			where k is a smoothing parameter & V is the size of the vocab
+		     -------------------
+			 count(wi-1) + (k*V)
+
+Question:
+Corpus: “I am happy I am learning”
+
+In the context of our corpus, what is the estimated probability of word “can” following the word “I” using the bigram model and add-k-smoothing where k=3.
+
+Answer:
+since the bigram P(can|I) does not exist in the training corpus, we will apply the add-k-smoothing.
+P(can|I) = 3/(2+3*4) 
+
+count(can|I) = 0 & count(I) = 2 & k =3 & V = 4 words in the vocab
+hence, (0+3) / (2 + 3*4)
 
 
 
