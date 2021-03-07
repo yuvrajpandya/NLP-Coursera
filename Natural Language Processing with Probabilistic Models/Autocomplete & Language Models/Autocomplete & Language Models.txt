@@ -159,7 +159,7 @@ formula:
 
 P(wi-1|wi) = count(wi-1,wi) + k			where k is a smoothing parameter & V is the size of the vocab
 		     -------------------
-			 count(wi-1) + (k*V)
+			 count(wi-1) + (k*V)     ---> why k*V? : because we are adding k term for every word in the vocab V.
 
 Question:
 Corpus: “I am happy I am learning”
@@ -172,6 +172,36 @@ P(can|I) = 3/(2+3*4)
 
 count(can|I) = 0 & count(I) = 2 & k =3 & V = 4 words in the vocab
 hence, (0+3) / (2 + 3*4)
+
+
+*******Backoff*******
+
+If we are trying to compute probability of a trigram P(wn|wn−2,wn−1) but we have no examples of a particular trigram wn−2,wn−1,wn. 
+We can instead estimate its probability by using the bigram probability P(wn|wn−1). Similarly, if we don’t have counts to compute bigram P(wn|wn−1), 
+we can look to the unigram P(wn)
+
+corpus:
+----------------------------
+<s>Lyn drinks chocolate</s>
+<s>John drinks tea</s>
+<s>Lyn eats chocolate</s>
+
+what is the probability of the statement?: "John drinks chocolate"
+since we can't compute the probability of a trigram P(chocolate|John drinks) because the training corpus does not contain this - we have to apply a smoothing technique. 
+
+using backoff, we will traverse back to N-1 gram and use its probability since it exists (i.e. "drinks chocolate" exists):
+
+constant * probability of N-1 gram = 0.4 * P(chocolate|drinks) = 0.4*(1/2) = 0.2 --> experimentally 0.4 constant has shown to give better results on a large corpus.
+
+*******Backoff using Linear Interpolation of N-1, N-2, and so on*******
+
+using the weighted probabilities of the N-grams: 
+P(chocolate|John drinks) = 0.7 * P(chocolate|John drinks) + 0.2 * P(chocolate|drinks) + 0.1 * P(chocolate) .... where lamda ƛ = weights (0.7+0.2+0.1) = 1
+
+
+
+
+
 
 
 
