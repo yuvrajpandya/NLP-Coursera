@@ -9,7 +9,34 @@ Gradient descent
 One-hot vectors
 Neural networks
 Word embeddings
-Continuous bag-of-words model
+Continuous bag-of-words model (CBOW)
 Text pre-processing
 Tokenization
 Data generators
+
+
+Popular methods to generate word embeddings:
+
+1. word2vec by Google
+	- Continuous bag-of-words (CBOW) 
+	- Continuous skip-gram/skip-gram with negative sampling
+
+
+2. GloVe by Stanford (global vectors)
+
+
+3. fastText by Facebook: 
+Which is based on the skip-gram model and takes into account the structure of words by representing words as an n-gram of characters. 
+This enables the model to support previously unseen words, known as Out Of Vocabulary (OOV) words, by inferring their embedding from the sequence of characters they are made of 
+and the corresponding sequences that it was initially trained on. For example, it would create similar embeddings for kitty and kitten, even if it had never seen the word kitty before.
+
+Advanced methods based on Deep Neural Networks:
+
+These are tunable pre-trained models available - You can fine tune these models using your own corpus to generate high-quality, domain, specific word embeddings
+1. BERT by Google
+Bidirectional Encoder Representations from Transformers: You can use a pre-trained BERT model to learn word embeddings on a previously unseen corpus.
+
+2. ELMo may have different word embeddings for the word "stable" depending on the context.
+
+3. GPT-2 by OpenAI
+Generative Pre-Trained model
