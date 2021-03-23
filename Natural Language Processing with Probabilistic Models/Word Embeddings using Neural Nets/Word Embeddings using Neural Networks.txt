@@ -40,3 +40,55 @@ Bidirectional Encoder Representations from Transformers: You can use a pre-train
 
 3. GPT-2 by OpenAI
 Generative Pre-Trained model
+
+
+
+/*******************************Continuous bag-of-words (CBOW) model & its architecture*****************************************
+
+Given the context (or the surrounding words), the CBOW model predicts the center word (or a missing word)
+Example
+------------
+Given: 
+corpus: "I am happy because I am learning" --> Vocabulary (V) = I, am, happy, because, learning
+C = half-size center word = it is a parameter depecting the number of context/surrounding words in each sides of a center word.
+say, C = 2: 
+For above corpus, 3 trained context & center words will be generated
+#1: context: "I am because I"  | center word: "happy"
+#2: context: "am happy I am"   | center word: "because"
+#3: context: "happy because am learning" | center word: "I
+-------------------------------------------------------------
+for the context: "I am because I am" the CBOW model will predict the missing center word = "happy"
+
+***************************The shallow dense neural network architecture of the CBOW model************************
+
+								Input						Hidden							Output
+								Layer (X)					Layer (h)						Layer  (y_hat)					X dentotes input which is context words vectors
+								 _							 _								 _								y_hat denotes output which is a center word vector
+x = context words vector  -->   | |		   W_1				| |			W_2				    | |	
+	[.....]						| |------>weights---------->| |-------->weights------------>| |					
+								| |		  (ReLU act func)	| |		   (softmax act func)   | |				---> y_hat = center word vector [....]
+								| |------> b_1	----------->| |--------> b_2   ------------>| |
+								|_|		  biases			|_|			biases			    |_|
+								
+								# of neurons: V			hyperparameter					# of neurons: V (there are V possiblities hence it can't be a simple Logistic Regression problem!)
+													    N = word embedding size
+
+
+working: 
+
+- the inputs of the model is a vector of contexts words, call it X, and the output is the vector of the predicted center word, call it Y hat.
+- the hidden layer h. the size or dimension of the word embeddings is a hyperparameter of the model, which you select yourself. Let's call the size of the word embedding N, where N can typically be hundred to a thousand
+- This is a regular feed-forward network, also called a dense neural network. 
+- The three layers are fully connected. I'll call the weights matrix between the input layer and the hidden layer W_1, and the bias vector of the hidden layer is b_1
+- W_2 is the weighting matrix between the hidden layer and the output layer, and b_2 is the bias vector of the output layer
+- These are the matrices in vectors that the neural network will be learning as you train it
+- you will derive the word embeddings from the weight of matrices of this neural network
+- For the hidden layer, you will use the rectified linear unit function, or ReLU activation function whose output is sent to the next layer i.e. the output layer
+- For the output layer, you will use softmax activation function
+
+
+
+
+
+
+
