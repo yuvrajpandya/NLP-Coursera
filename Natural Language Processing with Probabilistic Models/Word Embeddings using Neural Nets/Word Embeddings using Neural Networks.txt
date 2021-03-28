@@ -62,21 +62,21 @@ for the context: "I am because I am" the CBOW model will predict the missing cen
 ***************************The shallow dense neural network architecture of the CBOW model************************
 
 								Input						Hidden							Output
-								Layer (X)					Layer (h)						Layer  (y_hat)					X dentotes input which is context words vectors
+								Layer (x)					Layer (h)						Layer  (y_hat)					x dentotes input which is context words vectors
 								 _							 _								 _								y_hat denotes output which is a center word vector
 x = context words vector  -->   | |		   W_1				| |			W_2				    | |	
 	[.....]						| |------>weights---------->| |-------->weights------------>| |					
 								| |		  (ReLU act func)	| |		   (softmax act func)   | |				---> y_hat = center word vector [....]
 								| |------> b_1	----------->| |--------> b_2   ------------>| |
 								|_|		  biases			|_|			biases			    |_|
-								
+										z_1 = W_1*X+b_1					z_2 = W_2*h+b_2		y_hat = softmax(z_2)
 								# of neurons: V			hyperparameter					# of neurons: V (there are V possiblities hence it can't be a simple Logistic Regression problem!)
 													    N = word embedding size
 
 
 working: 
 
-- the inputs of the model is a vector of contexts words, call it X, and the output is the vector of the predicted center word, call it Y hat.
+- the inputs of the model is a vector of contexts words, call it x, and the output is the vector of the predicted center word, call it Y hat.
 - the hidden layer h. the size or dimension of the word embeddings is a hyperparameter of the model, which you select yourself. Let's call the size of the word embedding N, where N can typically be hundred to a thousand
 - This is a regular feed-forward network, also called a dense neural network. 
 - The three layers are fully connected. I'll call the weights matrix between the input layer and the hidden layer W_1, and the bias vector of the hidden layer is b_1
@@ -85,6 +85,94 @@ working:
 - you will derive the word embeddings from the weight of matrices of this neural network
 - For the hidden layer, you will use the rectified linear unit function, or ReLU activation function whose output is sent to the next layer i.e. the output layer
 - For the output layer, you will use softmax activation function
+
+
+Dimensions:
+Reminder: two matrices of size i,j & j,k can be multiplied as their # of cols & rows are equal.
+
+where V = size of the vocabulary
+	  N = size of the word embedding
+	  
+				Input layer (x)			Weights (W_1)		Bias (b_1)	  	Hidden layer (h)		Weights(W_2)		Bias(b_2)		Output layer (y_hat)
+
+Dimensions			V*1						N*V				  N*1				N*1						V*N					V*1 		 V*1
+Formula																		h = ReLU(z_1 = W_1*x+b_1)									y_hat = softmax(z_2 = W_2*h+b_2)
+
+Note: the size of Input layer & Output layer are same!!!
+
+***Batch processing (parameter for processing several examples to train the model quicker)***
+
+If you are designing a neural network for a CBOW model that will be trained on a corpus of 8000 words, and if you want it to learn 400-dimensional word embedding vectors, 
+what should be the size of W1, the weighting matrix between the input layer and hidden layer, 
+if it is fed training examples in batches of 16 examples represented by a 8000 row by 16 column matrix?
+
+Ans: 400 rows by 8000 columns.
+
+Batch size = M 
+
+Input X = V*M --> input is V rows representing the vocabulary size & M is the number of examples.
+
+In above question: the size of the weighting matrix does not change. hence it is W_1 = N*V = 400*8000
+
+
+
+							************ReLU (Rectified Linear Unit) Activation function****************
+										Recall: ReLU(z_1 = W_1*x+b_1) --> pass vector z_1 to ReLU function
+										
+ReLU is a popular general purpose activation function that only activates the neuron every sum of its weighted inputs is positive and passes through this results
+
+ReLU(X) = max(0,X) --> it is a function of a single real number
+									z_1				ReLU(z_1)					Google the graph of ReLU function. Very simple to understand.
+									[5.1			[5.1									
+									-0.3			 0	---> max(0,X) since X is -0.3 the ReLU returns 0.
+									-4.6		  	 0
+									0.2]		 	 0.2]
+
+
+
+
+
+							************Softmax Activation function****************
+										Recall: softmax(z_2 = W_2*h+b_2)
+										
+Given the input vector x below, a trained continuous bag-of-words model outputs the vector ŷ below. What is the word predicted by the model?
+
+X = [0.25 0.5     0 		0.25] Y_hat = [0.267 0.005 0.726 0.002]   Ans: the word "therefore" has highest probability of 0.726.
+	  am   I   therefore	think
+
+
+							z_2								y_hat
+							[0								[y_hat_1	am
+							 1								 y_hat_2	happy
+							 2			softmax(z_2)		 y_hat_3	therefore				Formula: y_hat_i = exponential raised to z_i
+							 3			----------->			.												 --------------------------------------------------
+							 .									.												   summation (exponential raised from z_j to z_v) 
+							 .									.												
+							 .									.												j = 1 to V
+							 V]								 y_hat_V]	zebra							The exponential transforms all our inputs two positive numbers 
+														probabilities of being a center word			and the divisor normalizes the vector so that the rols sum up to 1
+														
+														
+							z_2							exp(z_2) 				y_hat = softmax(each element of vector z_2)
+							[9							[8103					[0.083
+							 8			exponential		 2981					 0.03
+							 11			------------>	 59874		----->		 0.612
+							 10							 22026					 0.225
+							 8.5]						 4915]					 0.05]
+													summation: 97899
+
+
+
+
+
+
+
+
+
+
+			
+
+
 
 
 
