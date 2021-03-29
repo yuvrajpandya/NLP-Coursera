@@ -135,6 +135,11 @@ ReLU(X) = max(0,X) --> it is a function of a single real number
 							************Softmax Activation function****************
 										Recall: softmax(z_2 = W_2*h+b_2)
 										
+What does Softmax do? when applied to z_2 (the weighted sum of hidden layer), Softmax outputs a vector of real numbers between 0 to 1 summing up to 1 
+					  which can be interpreted as the probabilities of exclusive events. 
+					  In the case of the continuous bag of words model, when you apply softmax to z_2, you obtain an output vector y_hat with v rows, 
+					  where each row corresponds to a word of the vocabulary of the corpus which is the predicted center word.
+										
 Given the input vector x below, a trained continuous bag-of-words model outputs the vector ŷ below. What is the word predicted by the model?
 
 X = [0.25 0.5     0 		0.25] Y_hat = [0.267 0.005 0.726 0.002]   Ans: the word "therefore" has highest probability of 0.726.
@@ -149,7 +154,7 @@ X = [0.25 0.5     0 		0.25] Y_hat = [0.267 0.005 0.726 0.002]   Ans: the word "t
 							 .									.												   summation (exponential raised from z_j to z_v) 
 							 .									.												
 							 .									.												j = 1 to V
-							 V]								 y_hat_V]	zebra							The exponential transforms all our inputs two positive numbers 
+							 V]								 y_hat_V]	zebra							The exponential transforms all our inputs to positive numbers 
 														probabilities of being a center word			and the divisor normalizes the vector so that the rols sum up to 1
 														
 														
@@ -164,13 +169,66 @@ X = [0.25 0.5     0 		0.25] Y_hat = [0.267 0.005 0.726 0.002]   Ans: the word "t
 
 
 
+								***********************Cost Function***************************
+								
+								Cross-Entropy Loss function (lower the J lower the loss and better the prediction!!!)		Info: log of zero = -Infinity
+								
+								J = -1 * summation(y_actual_k * log(y_hat_k)) ....k = 1 to V		Note: it is y_actual_k * log of y_hat_k where y_hat_k is a predicted probability 
+																										  using softmax function and y_actual_k is either 0 or 1 
+												
+Case 1: Correct Prediction | y_hat = "happy"	y_actual="happy"
+														
+								y_hat			y_actual			
+								[0.083		   [0   k = 1
+								 0.03			0   k = 2				-1 * (y_k_3 * ln(y_hat_3))
+								 0.612			1	k = 3			J = -1 * (1 * ln(0.612)) = -1 * (-0.49) = 0.49
+								 0.225			0   k = 4
+								 0.05]			0]  k = 5
+							probabilities		classification classes
+							
+																									Case 1 	-->	loss/error is less because the prediction is correct (reward!)
+																									Case 2 	--> loss/error is higher because the prediction is incorrect (penalized!)
+Case 2: Incorrect Prediction | y_hat = "am"		y_actual = "happy"
+
+								y_hat			y_actual
+					am			[0.96			[0
+					because		 0.01		 	 0
+					happy		 0.01		 	 1				J = -1 * (1* ln(0.01)) = -1 * (-4.61) = 4.61   
+					I			 0.01		 	 0
+					learning	 0.01]		 	 0]
+
+
+								**********************Cost Function for batches***************************
+								
+-Forward propogation: Pass the set of examples/batch from Input layer to Output layer through hidden layers
+
+
+Loss: corresponds to 1 example | Cost: corresponds to a batch (M) of input examples
+Cost: simply a mean of losses of all examples in the batch
+
+														  m				 V			  i				i 	---->Note: these notations are superscripts as we are iterating over a batch of examples m
+								J_batch = -1/m * summation		summation	 y_actual_j * log(y_hat_j)	
+														  i=1			 j=1
+
+Recall: Input context words matrices size = Output predicted center words matrices size = V*M  , where V is the size of vocab & M is size of batch
 
 
 
 
+								************************Backpropogation & Gradient Descent**********************
+								
+					What is it?: To minimize the error, we have to minimize the cost. To minimize the cost we use 2 techniques to update the weights (W_1 & W_2) & biases (b_1 & b_2)
+					
+					Backpropogation is an algorithm that calculates the partial derivatives or gradients of the cost with respect to the weights and biases of the neural network
+					
+					Technique 1: Backpropogation: Calculate the partial derivatives of a cost function J_batch w.r.t weights & biases. Starting from the output layer & working way back through hidden layers.
+					Technique 1: Gradient Descent: Adjust the weights & biases by alpha learning rate. A smaller alpha allows for more gradual updates to the weights and biases, 
+												   whereas a larger number allows for a faster updates of the weights.
+												   
 
 
-			
+
+
 
 
 
