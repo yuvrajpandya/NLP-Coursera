@@ -94,7 +94,7 @@ To avoid the problem of numerical underflow & to have a normalized score scale, 
 
 log likelihood score = Σ log P(word|Positive)/P(word|Negative) ---- sum of log of probability ratios of the words in each class
 
-The score scale will range from -♾ to +♾ | scores greater than 0 are positive tweets & lesser than 0 are negative tweets
+uniformly scaled --> The score scale will range from -♾ to +♾ | scores greater than 0 are positive tweets & lesser than 0 are negative tweets
 
 Please note that, now the decision threshold is 0!
 
