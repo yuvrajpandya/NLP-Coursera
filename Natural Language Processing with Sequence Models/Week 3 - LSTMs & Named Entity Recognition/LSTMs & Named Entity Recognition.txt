@@ -1,0 +1,51 @@
+Week 3 
+
+Learning Objectives:
+
+Vanishing gradients
+Named entity recognition
+LSTMs
+Feature extraction
+Part-of-speech tagging
+Data generators
+
+
+
+RNNs and Vanishing Gradients problem:
+
+Advantages of RNNs
+RNNs allow us to capture dependancies within a short range and they take up less RAM than other n-gram models. 
+
+Disadvantages of RNNs
+RNNs struggle with longer term dependencies and are very prone to vanishing or exploding gradients.
+
+Note that the sigmoid and tanh functions are bounded by 0 and 1 and -1 and 1 respectively. 
+This eventually leads us to a problem. If you have many numbers that are less than |1|, then as you go through many layers, and you take the product of those numbers, 
+you eventually end up getting a gradient that is very close to 0. This introduces the problem of vanishing gradients. 
+
+
+Introduction to LSTMs
+The LSTM allows your model to remember and forget certain inputs. It consists of a cell state and a hidden state with three gates. The gates allow the gradients to flow unchanged. You can think of the three gates as follows: 
+
+Input gate: tells you how much information to input at any time point. 
+
+Forget gate: tells you how much information to forget at any time point. 
+
+Output gate: tells you how much information to pass over at any time point
+
+
+Applications of LSTM: Speech recognition, Chatbots, Image captioning
+
+Understanding-LSTMs:
+
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+
+
+​
+ 
+
+
+
+
+

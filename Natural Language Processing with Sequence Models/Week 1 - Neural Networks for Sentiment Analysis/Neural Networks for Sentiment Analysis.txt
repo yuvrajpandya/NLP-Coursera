@@ -1,0 +1,109 @@
+********************************************************
+Course: Natural Language Processing with Sequence Models
+********************************************************
+
+Learning Objectives
+-----------------------------
+Feature extraction
+Supervised machine learning
+Binary classification
+Text preprocessing
+ReLU
+Python classes
+Trax
+Neural networks
+
+
+
+Case study: Neural Networks for Sentiment Analysis
+--------------------------------------------------
+
+Previously in the course you did sentiment analysis with logistic regression and naive Bayes. 
+Those models were in a sense more naive, and are not able to catch the sentiment off a tweet like: "I am not happy " or "If only it was a good day". 
+
+NeuralNet: Forward Propogation mathematical equation
+
+suppose there exists a neuralnet with 3 layers (2 hidden layers & 1 o/p layer). 
+the output layer has 3 neurons - one for positive, one for neutral and one for negative depicting the sentiment of the tweet.
+
+a[0] = X --- X is the input (a tweet: "movie was good")
+
+z[i] = W[i].a[i-1] -- W[i] the weights vector of the ith layer multiplied with previous layer's activations
+
+a[i] = g[i](z[i]) -- a[i] activation vector is obtained by appliying an activation function such as Sigmoid/ReLu on weighted sum z[i] (quick note: ReLU is faster than Sigmoid as the gradient/slope around the tail of a sigmoid function is very slow)
+
+
+Trax: Neural Networks | Trax library is built on TensorFlow
+Trax has several advantages: 
+
+-Runs fast on CPUs, GPUs and TPUs
+-Parallel computing
+-Record algebraic computations for gradient evaluation
+
+
+from trax import layers tl
+model = tl.Serial(  -- serial combinator to create a fully connected neural network: Serial combinator is a serial arrangement of sub-layers
+				  tl.Dense(4), --1st layer with 4 nodes
+				  tl.Sigmoid(), -- apply the activation Sigmoid function
+				  tl.Dense(4),  -- 
+				  tl.Sigmoid(),
+				  tl.Dense(3),
+				  tl.softmax())
+				  
+				  
+-Trax mainly has two components: layers & combinators
+layers
+----------
+-layer is the base class of types of layers (Dense, ReLU, Softmax)
+-The Dense layer is the computation of the inner product between a set of trainable weights (weight matrix) and an input vector. Each input is sum-product with each weights in the W matrix
+-ReLU(x) is defined as max(0,x) for any input x
+
+combinators - a big flock of layer having sublayers in it (think of it as a chained function of function)
+------------
+You can combine layers to build more complex layers. Trax provides a set of objects named combinator layers to make this happen. Combinators are themselves layers
+e.g.: Serial Combinator 
+This is the most common and easiest to use. For example you could build a simple neural network by combining layers into a single layer using the Serial combinator. 
+This new layer then acts just like a single layer, so you can inspect intputs, outputs and weights. Or even combine it into another layer! Combinators can then be used as trainable models
+
+-similarly, there is a Parallel combinator to design complex neural network
+
+Refer to the Assignment to understand how Deep Natural Network is built using the Trax library.
+In the assignment, initially the hands-on is given on writing your own layer (e.g. a Dense a.k.a a fully connected layer, a ReLU layer) to showcase how under the hood neuralnets work.
+The assignment is interesting & lots of things to at look. For instance, a function that generates the data (training, validation, test) is cool - it yields the generator which returns
+a batch of data. 
+Also, check out how the classifier model is built using the Trax library. 
+Code snippet: a model receives the input (tweets as an array of tensors) -> embedding layers mapps discrete tokens/ids of tensors to vectors -> mean layer averages the word embeddings -> input is multiplied with trainable weights of the dense layer wihth 2 units -> logsoftmax to compute the probability
+model = tl.Serial(
+					embed_layer, # embedding layer					
+					mean_layer, # mean layer
+					dense_output_layer, # dense output layer with 2 units/nodes for classification problem (positive/negative tweet)
+					log_softmax_layer # log softmax layer
+				  )
+
+
+Embedding layer: maps each token id in the tensor (list of integers) to an embedding vector
+e.g.: say we have a tensor [0 1 2] for the sentence "I am happy". the corresponding embeddings for this tensor is of shape (3, 300) where 3 is length of the tensor & 300 is dimension.
+			
+				-300 dimension-
+I 		0	123	443	523	78	-877	.... 99  
+am		1	428	11	-398	01	637	.... 82
+happy	2	736	399	144	-55	77	46	.... -33
+
+		tl.mean(axis=1) -- along the column -- this will get the vector of shape(300,) for the above sentence "I am happy"
+		pls note: the tensor [0 1 2] is generated as a unique ID for each word in the vocabulary in the assignment.
+
+code snippet:
+embed_layer = tl.Embedding(
+        vocab_size=vocab_size, # Size of the vocabulary
+        d_feature=embedding_dim)  # Embedding dimension
+
+
+
+
+
+
+
+
+
+
+
