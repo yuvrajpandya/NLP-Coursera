@@ -153,4 +153,4 @@ Enjoy!
       - [Chatbot]
     - Labs:
       - [Reformer LSH]
-      - [Revnet](https://nbviewer.jupyter.org/github/amanchadha/coursera-natural-language-processing-specialization/blob/master/4%20-%20Natural%20Language%20Processing%20with%20Attention%20Models/Week%204/C4W4_L2_Ungraded_Lab_Revnet.ipynb)
+      - [Revnet]
